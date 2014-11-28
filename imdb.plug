@@ -1,0 +1,9 @@
+[Core]
+Name = IMDb
+Module = imdb
+
+[Python]
+Version=2+
+
+[Documentation]
+Description = Searches IMDb for movie titles
