@@ -17,7 +17,7 @@ class IMDb(BotPlugin):
         config = {
             'anonymize': False,
             'cache': False,
-            'cache_dir': '/tmp/imdbpiecache',
+            'cache_dir': u'/tmp/imdbpiecache',
         }
         return config
 
