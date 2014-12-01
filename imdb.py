@@ -21,13 +21,24 @@ class IMDb(BotPlugin):
         }
         return config
 
+    def _check_config(self, option):
+
+        # if no config, return nothing
+        if self.config is None:
+            return None
+        else:
+            # now, let's validate the key
+            if self.config.has_key(option):
+                return self.config[option]
+            else:
+                return None
 
     def _connect(self):
         """ connection to imdb """
 
-        anonymize = self.config['anonymize']
-        cache = self.config['cache']
-        cache_dir = self.config['cache_dir']
+        anonymize = self._check_config('anonymize') or False
+        cache = self._check_config('cache') or False
+        cache_dir = self._check_config('cache_dir') or '/tmp/imdbpiecache'
 
         imdb = Imdb({
                 'anonymize': anonymize,
