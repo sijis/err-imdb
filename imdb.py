@@ -3,12 +3,14 @@ from optparse import OptionParser
 
 import time
 import logging
-logging.basicConfig(level=logging.DEBUG)
+
+log = logging.getLogger(name='errbot.plugins.Imdb')
 
 try:
     from imdbpie import Imdb
-except ImportError as _:
-    logging.exception("Please install 'imdbpie' python package")
+except ImportError:
+    log.error("Please install 'imdbpie' python package")
+
 
 class IMDb(BotPlugin):
 
