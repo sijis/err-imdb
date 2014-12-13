@@ -28,7 +28,7 @@ class IMDb(BotPlugin):
             return None
         else:
             # now, let's validate the key
-            if self.config.has_key(option):
+            if option in self.config:
                 return self.config[option]
             else:
                 return None
@@ -41,10 +41,10 @@ class IMDb(BotPlugin):
         cache_dir = self._check_config('cache_dir') or '/tmp/imdbpiecache'
 
         imdb = Imdb({
-                'anonymize': anonymize,
-                'cache': cache,
-                'cache_dir': cache_dir,
-                })
+                    'anonymize': anonymize,
+                    'cache': cache,
+                    'cache_dir': cache_dir,
+                    })
 
         return imdb
 
@@ -54,14 +54,14 @@ class IMDb(BotPlugin):
         for result in results:
             # X. Title (year) / <code>
             response.append('{0}. {1} ({2}/{3})'.format(
-                        count,
-                        result['title'],
-                        result['year'],
-                        result['imdb_id'],
-                            ))
+                count,
+                result['title'],
+                result['year'],
+                result['imdb_id'],
+                )
+            )
             count = count + 1
         return ' '.join(response)
-                
 
     @botcmd
     def imdb(self, msg, args):
@@ -76,11 +76,15 @@ class IMDb(BotPlugin):
         results_total = len(results)
 
         if results_total == 0:
-            self.send(msg.getFrom(), 'No results for "{0}" found.'.format(args), message_type=msg.getType())
+            self.send(msg.getFrom(),
+                      'No results for "{0}" found.'.format(args),
+                      message_type=msg.getType())
             return
 
         movies = self._parse_movie_results(results[:results_to_return])
-        self.send(msg.getFrom(), '{0}'.format(movies), message_type=msg.getType())
+        self.send(msg.getFrom(),
+                  '{0}'.format(movies),
+                  message_type=msg.getType())
 
     @botcmd
     def imdb_movie(self, msg, args):
@@ -93,18 +97,20 @@ class IMDb(BotPlugin):
         movie_id = imdb.validate_id(args)
 
         if not imdb.movie_exists(movie_id):
-            self.send(msg.getFrom(), 'Movie id ({0}) not valid.'.format(movie_id), message_type=msg.getType())
+            self.send(msg.getFrom(),
+                      'Movie id ({0}) not valid.'.format(movie_id),
+                      message_type=msg.getType())
             return
-            
+
         movie = imdb.find_movie_by_id(movie_id)
 
-        # Title (year), Plot: ..., Release: xxxx-xx-xx, 
+        # Title (year), Plot: ..., Release: xxxx-xx-xx, imdb-url
         response = '{0} ({1}), Plot: {2} Released: {3}, {4}'.format(
-                movie.title,
-                movie.year,
-                movie.plot_outline,
-                movie.release_date,
-                'http://www.imdb.com/title/{0}/'.format(movie.imdb_id),
-                )
+            movie.title,
+            movie.year,
+            movie.plot_outline,
+            movie.release_date,
+            'http://www.imdb.com/title/{0}/'.format(movie.imdb_id),
+        )
 
         self.send(msg.getFrom(), response, message_type=msg.getType())
