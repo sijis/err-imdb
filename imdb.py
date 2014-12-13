@@ -1,7 +1,4 @@
 from errbot import BotPlugin, botcmd
-from optparse import OptionParser
-
-import time
 import logging
 
 log = logging.getLogger(name='errbot.plugins.Imdb')
