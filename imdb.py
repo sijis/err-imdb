@@ -77,13 +77,17 @@ class IMDb(BotPlugin):
         if results_total == 0:
             self.send(msg.frm,
                       'No results for "{0}" found.'.format(args),
-                      message_type=msg.type)
+                      message_type=msg.type,
+                      in_reply_to=msg,
+                      groupchat_nick_reply=True)
             return
 
         movies = self._parse_movie_results(results[:results_to_return])
         self.send(msg.frm,
                   '{0}'.format(movies),
-                  message_type=msg.type)
+                  message_type=msg.type,
+                  in_reply_to=msg,
+                  groupchat_nick_reply=True)
 
     @botcmd
     def imdb_movie(self, msg, args):
@@ -98,7 +102,9 @@ class IMDb(BotPlugin):
         if not imdb.movie_exists(movie_id):
             self.send(msg.frm,
                       'Movie id ({0}) not valid.'.format(movie_id),
-                      message_type=msg.type)
+                      message_type=msg.type,
+                      in_reply_to=msg,
+                      groupchat_nick_reply=True)
             return
 
         movie = imdb.find_movie_by_id(movie_id)
@@ -112,4 +118,8 @@ class IMDb(BotPlugin):
             'http://www.imdb.com/title/{0}/'.format(movie.imdb_id),
         )
 
-        self.send(msg.frm, response, message_type=msg.type)
+        self.send(msg.frm,
+                  response,
+                  message_type=msg.type,
+                  in_reply_to=msg,
+                  groupchat_nick_reply=True)
