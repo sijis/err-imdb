@@ -97,9 +97,9 @@ class IMDb(BotPlugin):
         '''
 
         imdb = self._connect()
-        movie_id = imdb.validate_id(args)
+        movie_id = args
 
-        if not imdb.movie_exists(movie_id):
+        if not imdb.title_exists(movie_id):
             self.send(msg.frm,
                       'Movie id ({0}) not valid.'.format(movie_id),
                       message_type=msg.type,
@@ -107,7 +107,7 @@ class IMDb(BotPlugin):
                       groupchat_nick_reply=True)
             return
 
-        movie = imdb.find_movie_by_id(movie_id)
+        movie = imdb.get_title_by_id(movie_id)
 
         # Title (year), Plot: ..., Release: xxxx-xx-xx, imdb-url
         response = '{0} ({1}), Plot: {2} Released: {3}, {4}'.format(
