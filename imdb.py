@@ -71,7 +71,7 @@ class IMDb(BotPlugin):
         imdb = self._connect()
         results_to_return = 5
 
-        results = imdb.find_by_title(args)
+        results = imdb.search_for_title(args)
         results_total = len(results)
 
         if results_total == 0:
