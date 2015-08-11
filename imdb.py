@@ -99,7 +99,9 @@ class IMDb(BotPlugin):
         imdb = self._connect()
         movie_id = args
 
-        if not imdb.title_exists(movie_id):
+        try:
+             imdb.title_exists(movie_id)
+        except:    
             self.send(msg.frm,
                       'Movie id ({0}) not valid.'.format(movie_id),
                       message_type=msg.type,
