@@ -1,5 +1,6 @@
-from errbot import BotPlugin, botcmd
 import logging
+
+from errbot import BotPlugin, botcmd
 
 log = logging.getLogger(name='errbot.plugins.Imdb')
 
@@ -10,7 +11,6 @@ except ImportError:
 
 
 class IMDb(BotPlugin):
-
     def get_configuration_template(self):
         """ configuration entries """
         config = {
@@ -40,10 +40,10 @@ class IMDb(BotPlugin):
         cache_dir = self._check_config('cache_dir') or '/tmp/imdbpiecache'
 
         imdb = Imdb({
-                    'anonymize': anonymize,
-                    'cache': cache,
-                    'cache_dir': cache_dir,
-                    })
+            'anonymize': anonymize,
+            'cache': cache,
+            'cache_dir': cache_dir,
+        })
 
         return imdb
 
@@ -57,8 +57,7 @@ class IMDb(BotPlugin):
                 result['title'],
                 result['year'],
                 result['imdb_id'],
-                )
-            )
+            ))
             count = count + 1
         return ' '.join(response)
 
@@ -75,19 +74,16 @@ class IMDb(BotPlugin):
         results_total = len(results)
 
         if results_total == 0:
-            self.send(msg.frm,
-                      'No results for "{0}" found.'.format(args),
-                      message_type=msg.type,
-                      in_reply_to=msg,
-                      groupchat_nick_reply=True)
+            self.send(
+                msg.frm,
+                'No results for "{0}" found.'.format(args),
+                message_type=msg.type,
+                in_reply_to=msg,
+                groupchat_nick_reply=True)
             return
 
         movies = self._parse_movie_results(results[:results_to_return])
-        self.send(msg.frm,
-                  '{0}'.format(movies),
-                  message_type=msg.type,
-                  in_reply_to=msg,
-                  groupchat_nick_reply=True)
+        self.send(msg.frm, '{0}'.format(movies), message_type=msg.type, in_reply_to=msg, groupchat_nick_reply=True)
 
     @botcmd
     def imdb_movie(self, msg, args):
@@ -100,13 +96,14 @@ class IMDb(BotPlugin):
         movie_id = args
 
         try:
-             imdb.title_exists(movie_id)
-        except:    
-            self.send(msg.frm,
-                      'Movie id ({0}) not valid.'.format(movie_id),
-                      message_type=msg.type,
-                      in_reply_to=msg,
-                      groupchat_nick_reply=True)
+            imdb.title_exists(movie_id)
+        except:
+            self.send(
+                msg.frm,
+                'Movie id ({0}) not valid.'.format(movie_id),
+                message_type=msg.type,
+                in_reply_to=msg,
+                groupchat_nick_reply=True)
             return
 
         movie = imdb.get_title_by_id(movie_id)
@@ -120,8 +117,4 @@ class IMDb(BotPlugin):
             'http://www.imdb.com/title/{0}/'.format(movie.imdb_id),
         )
 
-        self.send(msg.frm,
-                  response,
-                  message_type=msg.type,
-                  in_reply_to=msg,
-                  groupchat_nick_reply=True)
+        self.send(msg.frm, response, message_type=msg.type, in_reply_to=msg, groupchat_nick_reply=True)
