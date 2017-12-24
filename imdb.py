@@ -7,7 +7,7 @@ log = logging.getLogger(name='errbot.plugins.Imdb')
 try:
     from omdb import Client
 except ImportError:
-    log.error("Please install 'imdbpie' python package")
+    log.error("Please install 'omdb' python package")
 
 
 class IMDb(BotPlugin):
