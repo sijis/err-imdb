@@ -1,23 +1,31 @@
-Err plugin for IMDb
-===
+Errbot plugin for IMDb
+======================
+
+A simple errbot plugin which searches IMDB for movie details.
+
+It uses the OMDb API (http://omdbapi.com/) for movie datbabase.
 
 Requirements
----
+------------
 ```
-pip install imdbpie
+pip install omdb
 ```
 
 Installation
----
+------------
 ```
 !repos install https://github.com/sijis/err-imdb.git
 ```
 
 Usage
----
-Simple example usage
+-----
 
+Search for title
 ```
 !imdb The Dark Knight
+```
+
+Show specific title details
+```
 !imdb movie tt0468569
 ```
