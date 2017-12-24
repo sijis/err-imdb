@@ -63,16 +63,9 @@ class IMDb(BotPlugin):
         results_to_return = 5
 
         results = imdb.get(search=args)
-        results_total = len(results)
 
-        if results_total == 0:
-            self.send(
-                msg.frm,
-                'No results for "{0}" found.'.format(args),
-                message_type=msg.type,
-                in_reply_to=msg,
-                groupchat_nick_reply=True)
-            return
+        if not results:
+            return 'No results for "{0}" found.'.format(args)
 
         movies = self._parse_movie_results(results[:results_to_return])
         return movies
@@ -90,13 +83,7 @@ class IMDb(BotPlugin):
         movie = imdb.get(imdbid=movie_id)
 
         if not movie:
-            self.send(
-                msg.frm,
-                'Movie with id ({0}) not found.'.format(movie_id),
-                message_type=msg.type,
-                in_reply_to=msg,
-                groupchat_nick_reply=True)
-            return
+            return 'Movie with id ({0}) not found.'.format(movie_id)
 
         # Title (year), Plot: ..., Release: xxxx-xx-xx, imdb-url
         response = '{0} ({1}), Plot: {2} Released: {3}, {4}'.format(
